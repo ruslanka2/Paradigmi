@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Крестики-нолики</title>
+    <style>
+        .bodys{
+            display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+        }
+        .board {
+            display: flex;
+            flex-wrap: wrap;
+            width: 300px;
+        }
+        .board div {
+            width: 98px;
+            height: 98px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="bodys"><div class="board"></div></div>
+
+    <script>
+        class TicTacToe {
+            constructor(size) {
+                this.size = size;
+                this.board = document.querySelector('.board');
+                this.cells = [];
+                this.currentPlayer = 'X';
+                this.winningCombinations = this.generateWinningCombinations();
+
+                this.createBoard();
+            }
+
+            generateWinningCombinations() {
+                const combinations = [];
+                // Проверка горизонтальных комбинаций
+                for (let i = 0; i < this.size; i++) {
+                    const combination = [];
+                    for (let j = 0; j < this.size; j++) {
+                        combination.push(i * this.size + j);
+                    }
+                    combinations.push(combination);
+                }
+                // Проверка вертикальных комбинаций
+                for (let i = 0; i < this.size; i++) {
+                    const combination = [];
+                    for (let j = 0; j < this.size; j++) {
+                        combination.push(i + j * this.size);
+                    }
+                    combinations.push(combination);
+                }
+                // Проверка диагональных комбинаций
+                const diagonal1 = [];
+                const diagonal2 = [];
+                for (let i = 0; i < this.size; i++) {
+                    diagonal1.push(i * this.size + i);
+                    diagonal2.push(i * this.size + (this.size - 1 - i));
+                }
+                combinations.push(diagonal1, diagonal2);
+
+                return combinations;
+            }
+
+            createBoard() {
+                for (let i = 0; i < this.size * this.size; i++) {
+                    const cell = document.createElement('div');
+                    cell.addEventListener('click', () => this.cellClick(i));
+                    this.board.appendChild(cell);
+                    this.cells.push(cell);
+                }
+            }
+
+            cellClick(index) {
+                if (this.cells[index].textContent === '') {
+                    this.cells[index].textContent = this.currentPlayer;
+                    this.checkWin();
+                    this.currentPlayer = (this.currentPlayer === 'X') ? 'O' : 'X';
+                }
+            }
+
+            checkWin() {
+                for (let i = 0; i < this.winningCombinations.length; i++) {
+                    const combination = this.winningCombinations[i];
+                    const isWin = combination.every(index => this.cells[index].textContent === this.currentPlayer);
+                    if (isWin) {
+                        alert(`Игрок ${this.currentPlayer} победил!`);
+                        this.resetGame();
+                        return;
+                    }
+                }
+
+                if (this.cells.every(cell => cell.textContent !== '')) {
+                    alert('Ничья!');
+                    this.resetGame();
+                }
+            }
+
+            resetGame() {
+                this.cells.forEach(cell => {
+                    cell.textContent = '';
+                });
+                this.currentPlayer = 'X';
+            }
+        }
+
+        const game = new TicTacToe(3);
+    </script>
+</body>
+</html
