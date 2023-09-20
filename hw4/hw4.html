@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>function calculatePearsonCorrelation(arr1, arr2) {
+    // Проверка на равную длину массивов
+    if (arr1.length !== arr2.length) {
+      throw new Error('Массивы должны быть одинаковой длины');
+    }
+  
+    
+    const calculateMean = (arr) => arr.reduce((sum, value) => sum + value, 0) / arr.length;
+  
+   
+    const calculateStandardDeviation = (arr, mean) =>
+      Math.sqrt(arr.reduce((sum, value) => sum + Math.pow(value - mean, 2), 0) / arr.length);
+  
+
+    const calculateCovariance = (arr1, arr2, mean1, mean2) =>
+      arr1.reduce((sum, value, index) => sum + (value - mean1) * (arr2[index] - mean2), 0) / arr1.length;
+  
+    // Расчет корреляции Пирсона
+    const mean1 = calculateMean(arr1);
+    const mean2 = calculateMean(arr2);
+    const std1 = calculateStandardDeviation(arr1, mean1);
+    const std2 = calculateStandardDeviation(arr2, mean2);
+    const covariance = calculateCovariance(arr1, arr2, mean1, mean2);
+  
+    return covariance / (std1 * std2);
+  }
+  
+ 
+  const arr1 = [1, 2, 3, 4, 5];
+  const arr2 = [2, 4, 6, 8, 10];
+  const correlation = calculatePearsonCorrelation(arr1, arr2);
+  console.log(`Корреляция Пирсона: ${correlation}`);</script>
+</body>
+</html> 
