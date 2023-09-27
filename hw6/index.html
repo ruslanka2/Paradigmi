@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function binarySearch(arr, target) {
+  let start = 0;
+  let end = arr.length - 1;
+
+  while (start <= end) {
+    let middle = Math.floor((start + end) / 2);
+
+    if (arr[middle] === target) {
+      return middle; // Возвращаем индекс найденного элемента
+    }
+
+    if (arr[middle] < target) {
+      start = middle + 1; // Искомый элемент находится в правой части массива
+    } else {
+      end = middle - 1; // Искомый элемент находится в левой части массива
+    }
+  }
+
+  return -1; // Искомый элемент не найден
+}
+
+// Пример использования
+const array = [2, 5, 8, 12, 16, 23, 38, 56, 72, 91];
+
+const target = 47;
+const target1 = 23;
+
+const result = binarySearch(array, target);
+const result1 = binarySearch(array, target1);
+console.log(result1);
+console.log(result);
+    </script>
+</body>
+</html>
